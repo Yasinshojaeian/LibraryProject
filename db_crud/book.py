@@ -5,6 +5,7 @@ from fastapi.exceptions import HTTPException
 from fastapi import status
 import models
 
+
 def create_book(db: Session, request: BooksBase):
     book = Books(
         title=request.title,
@@ -13,12 +14,13 @@ def create_book(db: Session, request: BooksBase):
         page=request.page,
         published_date=request.published_date,
         author_id=request.author_id,
-        category_id=request.category_id,
     )
     db.add(book)
     db.commit()
     db.refresh(book)
     return book
+
+
 
 
 def update_book(pk, db: Session, request: BooksBase):
@@ -62,6 +64,6 @@ def search_book(db: Session, q):
 def get_book_with_category(db: Session, cat: str):
     category = db.query(models.books.Category).filter(models.books.Category.title == cat).first()
     if not category:
-        raise HTTPException(status_code=status.HTTP_404_NOT_FOUND,detail='Category Not Found !')
+        raise HTTPException(status_code=status.HTTP_404_NOT_FOUND, detail='Category Not Found !')
     books = db.query(Books).filter(Books.category_id == category.id)
     return books

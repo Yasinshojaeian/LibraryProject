@@ -26,10 +26,11 @@ class BooksBase(BaseModel):
     published_date: str
     page: int
     author_id: int
-    category_id: int
+    category_id: List[int] | None = None
 
 
 class BookDisplay(BaseModel):
+    id: int
     title: str
     description: str
     published: bool

@@ -7,14 +7,21 @@ from db_crud import book
 from dependencies import get_db
 from schemas.books import BooksBase, BookDisplay
 from schemas.users import UserBase
+from db_crud import categories
 
 router = APIRouter(prefix='/book')
 
 
 # create book
 @router.post('/create/', response_model=BookDisplay)
-def create_book(article: BooksBase, db=Depends(get_db)):
-    return book.create_book(db, article)
+def create_book(data: BooksBase, db=Depends(get_db)):
+    print(data)
+    new_book = book.create_book(db, data)
+    if not data.category_id:
+        return new_book
+    for cat_id in data.category_id:
+        categories.assign_book(category_id=cat_id, book_id=new_book.id, db=db)
+    return new_book
 
 
 # read All book
