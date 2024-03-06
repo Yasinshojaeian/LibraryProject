@@ -18,6 +18,16 @@ def create_category(category: CategoriesBase, db=Depends(get_db),
     return categories.create_category(db, category)
 
 
+@router.post("/assign/category/{category_id}/books/{book_id}")
+def assign_book(category_id: int, book_id: int, db=Depends(get_db)):
+    return categories.assign_book(category_id, book_id, db)
+
+
+@router.delete("/remove/category/{category_id}/books/{book_id}")
+def remove_book(category_id: int, book_id: int, db=Depends(get_db)):
+    return categories.remove_book(category_id, book_id, db)
+
+
 # read All categories
 
 @router.get('/all/', response_model=List[CategoryDisplay])
@@ -28,10 +38,11 @@ def read_all_categories(db=Depends(get_db), current_user: UserBase = Depends(oau
 # read category
 
 @router.get('/{pk}/')
-def read_category(pk: int, db=Depends(get_db), current_user: UserBase = Depends(oauth2.get_current_user)):
+def get_category(pk: int, db=Depends(get_db), current_user: UserBase = Depends(oauth2.get_current_user)):
+    data = categories.get_category(pk, db)
+    books = data.books
     return {
-        "data": categories.get_category(pk, db),
-        "current_user": current_user
+        "data": data,
     }
 
 
