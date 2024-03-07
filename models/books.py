@@ -9,6 +9,13 @@ category_books = Table(
     Column("categories_id", Integer, ForeignKey("categories.id"))
 )
 
+author_books = Table(
+    "author_books",
+    Base.metadata,
+    Column("books_id", Integer, ForeignKey("books.id")),
+    Column("author_id", Integer, ForeignKey("users.id"))
+)
+
 
 class Category(Base):
     __tablename__ = 'categories'
@@ -16,8 +23,6 @@ class Category(Base):
     id = Column(Integer, index=True, primary_key=True)
     title = Column(String)
 
-    # book_id = Column(Integer, ForeignKey('users.id'))
-    # books = relationship('Books', back_populates='category')
     books = relationship("Books", secondary=category_books, back_populates="categories")
 
 
@@ -31,9 +36,5 @@ class Books(Base):
     published_date = Column(String)
     page = Column(Integer)
 
-    author_id = Column(Integer, ForeignKey('users.id'))
-    author = relationship('User', back_populates='items')
-    #
-    # category_id = Column(Integer, ForeignKey('categories.id'))
-    # category = relationship('Category', back_populates='books')
+    author = relationship('User', secondary=author_books, back_populates='items')
     categories = relationship("Category", secondary=category_books, back_populates="books")

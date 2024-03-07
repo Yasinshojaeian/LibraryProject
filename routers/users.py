@@ -18,9 +18,12 @@ def create_user(user: UserBase, db=Depends(get_db)):
 
 # read All user
 
-@router.get('/all/', response_model=List[UserDisplay])
+@router.get('/all/',response_model=List[UserDisplay])
 def read_all_user(db=Depends(get_db), token: UserBase = Depends(oauth2.get_current_user)):
-    return users.get_all_users(db)
+    query = users.get_all_users(db)
+    for i in query:
+        books = i.items
+    return query
 
 
 # read user
