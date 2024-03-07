@@ -25,7 +25,7 @@ class BooksBase(BaseModel):
     published: bool
     published_date: str
     page: int
-    author_id: int
+    author_id: List[int] | None = None
     category_id: List[int] | None = None
 
 
@@ -34,8 +34,9 @@ class BookDisplay(BaseModel):
     title: str
     description: str
     published: bool
-    author: User
-    category: Category | None = None
+    author: List[User] | None = None
+    categories: List[Category] | None = None
 
     class Config:
         orm_mode = True
+

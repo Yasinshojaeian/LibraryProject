@@ -1,6 +1,7 @@
 from database import Base
 from sqlalchemy import Column, Integer, String
 from sqlalchemy.orm import relationship
+from .books import author_books
 
 
 class User(Base):
@@ -10,4 +11,4 @@ class User(Base):
     username = Column(String)
     email = Column(String)
     password = Column(String)
-    items = relationship('Books', back_populates='author')
+    items = relationship('Books', secondary=author_books, back_populates='author')

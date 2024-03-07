@@ -14,7 +14,7 @@ class BookDisplay(BaseModel):
     title: str
     description: str
     published: bool
-    author: User
+    author: List[User]
 
     # category: Category | None = None
 
@@ -29,7 +29,7 @@ class CategoriesBase(BaseModel):
 class CategoryDisplay(BaseModel):
     id: int
     title: str
-    # books: List[BookDisplay]
+    books: List[BookDisplay]
 
     class Config:
         orm_mode = True

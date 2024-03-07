@@ -14,7 +14,7 @@ class Category(BaseModel):
 class Book(BaseModel):
     title: str
     description: str
-    category: Category
+    categories: List[Category]
 
     class Config:
         orm_mode = True

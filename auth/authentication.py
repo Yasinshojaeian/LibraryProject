@@ -25,5 +25,4 @@ def get_token(request: OAuth2PasswordRequestForm = Depends(), db: Session = Depe
         'type_token': "bearer",
         'userID': user.id,
         'username': user.username
-
     }
